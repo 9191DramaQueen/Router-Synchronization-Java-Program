@@ -3,24 +3,24 @@ import java.util.Vector;
 class Router{ 
 	private static Vector<Device> listOfConnections;
 	private Device currentDevice;
-	private semaphore sema;
+	private LabSemaphore sema;
 	public Router() {
 		listOfConnections = new Vector<Device>();
 		currentDevice = null;
 		sema = null;
 	}
-	public Router(Device device , semaphore sema) {
+	public Router(Device device , LabSemaphore sema) {
 		currentDevice = device;
 		this.sema = sema;
 	}
 	public synchronized void run() throws InterruptedException {
 		if(sema.value > 0) {
 			listOfConnections.add(currentDevice);
-			sema.P();
+			sema.Lock();
 			currentDevice.run();
 			int index = listOfConnections.indexOf(currentDevice);
 			listOfConnections.remove(index);
-			sema.V();
+			sema.Release();
 		}
 		else {
 			currentDevice.wait();
