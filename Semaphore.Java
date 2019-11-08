@@ -9,7 +9,7 @@ class semaphore {
 	}
 	public synchronized void P() {
 		value-- ;
-		if ( value & lt; 0)
+		if ( value < 0)
 			try { 
 				wait() ; 
 			}catch(InterruptedException e) { 
@@ -18,7 +18,7 @@ class semaphore {
 	}
 	public synchronized void V() {
 		value++ ; 
-		if (value &lt;= 0) 
+		if (value <= 0) 
 			notify() ;
 		}
 }
