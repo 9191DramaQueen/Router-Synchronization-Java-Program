@@ -6,6 +6,7 @@ class Device extends Thread{
 	String name;
 	static String type;
 	LabSemaphore semaphore;
+	private static Router router = new Router();
 	protected Device(String name, String deviceType, LabSemaphore semaphore) { 
 		this.name = name;
 		this.semaphore = semaphore;
@@ -22,13 +23,14 @@ class Device extends Thread{
 	public void run() {
 		if(semaphore.aPlaceExists()) {
 			this.Connect();
-			this.PreformActivity();
-			this.Disconnect();
+			
 		}else {
 			this.Waiting();
 		}
-		
-		
+		router.occupy(this);
+		this.PreformActivity();
+		this.Disconnect();
+		router.release(this);
 	}
 	public void Connect() {
 		System.out.println(type + "Arrived");

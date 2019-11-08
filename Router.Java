@@ -2,18 +2,33 @@ import java.util.Vector;
 
 class Router{ 
 	private static Vector<Device> listOfConnections;
-	private Device currentDevice;
-	private LabSemaphore sema;
+	//private Device currentDevice;
+	//private LabSemaphore sema;
+	
 	public Router() {
 		listOfConnections = new Vector<Device>();
-		currentDevice = null;
-		sema = null;
+		//currentDevice = null;
+		//sema = null;
 	}
-	public Router(Device device , LabSemaphore sema) {
-		currentDevice = device;
-		this.sema = sema;
+	/*public Router(Device device , LabSemaphore sema) {
+		//currentDevice = device;
+		//this.sema = sema;
+	}*/
+	public void occupy(Device device) {
+		//currentDevice = device;
+		listOfConnections.add(device);//currentDevice);
 	}
-	public synchronized void run() throws InterruptedException {
+	public void release(Device device) {
+		//currentDevice = device;
+		listOfConnections.remove(device);//currentDevice);
+	}
+	@SuppressWarnings("static-access")
+	public void showRouterList() {
+		for(int i = 0 ; i < listOfConnections.size() ; i++) {
+			System.out.println("Device : " + listOfConnections.get(i).name + " Type : " + listOfConnections.get(i).type);
+		}
+	}
+	/*public synchronized void run() throws InterruptedException {
 		if(sema.value > 0) {
 			listOfConnections.add(currentDevice);
 			sema.Lock();
@@ -33,6 +48,7 @@ class Router{
 		for(int i = 0 ; i < listOfConnections.size() ; i++) {
 			System.out.println("Device : " + listOfConnections.get(i).name + " Type : " + listOfConnections.get(i).type);
 		}
-	}
+	}*/
 }
+	
 
