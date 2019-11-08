@@ -22,18 +22,21 @@ class Device extends Thread{
 	public void run() {
 		if(semaphore.aPlaceExists()) {
 			this.Connect();
+			this.PreformActivity();
+			this.Disconnect();
 		}else {
 			this.Waiting();
 		}
 		
+		
 	}
 	public void Connect() {
-		semaphore.Lock();
 		System.out.println(type + "Arrived");
+		semaphore.Lock();
 	}
 	public void Waiting() {
-		semaphore.Lock();
 		System.out.println(type + "Arrived and waiting");
+		semaphore.Lock();
 	}
 
 	public void Disconnect() {
