@@ -11,26 +11,24 @@ class Router{
 		for(int i = 0 ;  i < listOfConnections.length ; i++) {
 			listOfConnections[i] = null;
 		}
+		device = new Device(name , type , sema , this);
 		device.start();
 	}
 	public Router(){
 		
 	}
-	public void occupy(Device dev) {
-		for(int i = 0 ; i < listOfConnections.length ; i++) {
+	public int occupy(Device dev) {
+		int i;
+		for(i = 0 ; i < listOfConnections.length ; i++) {
 			if(listOfConnections[i].equals(null)) {
 				listOfConnections[i] = dev;
 				break;
 			}
 		}
+		return i;
 	}
-	public void release(Device dev) {
-		for(int i = 0 ; i < listOfConnections.length ; i++) {
-			if(listOfConnections[i].equals(dev)) {
-				listOfConnections[i] = null;
-				break;
-			}
-		}
+	public void release(Device dev , int i) {
+		listOfConnections[i] = dev;
 	}
 	@SuppressWarnings("static-access")
 	public void printList() {

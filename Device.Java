@@ -7,9 +7,13 @@ class Device extends Thread{
 	static String type;
 	LabSemaphore semaphore;
 	private static Router router;
-	protected Device(String name, String deviceType, LabSemaphore semaphore) { 
+	int index;
+	@SuppressWarnings("static-access")
+	protected Device(String name, String deviceType, LabSemaphore semaphore , Router router) { 
 		this.name = name;
 		this.semaphore = semaphore;
+		this.router = router;
+		index = 0;
 		deviceType = deviceType.toLowerCase();
 		switch(deviceType) {
 		case "mobile": case "tablet": case "pc": case "labtop":
@@ -27,10 +31,10 @@ class Device extends Thread{
 		}else {
 			this.Waiting();
 		}
-		router.occupy(this);
+		index = router.occupy(this);
 		this.PreformActivity();
 		this.Disconnect();
-		router.release(this);
+		router.release(this , index);
 	}
 	public void Connect() {
 		System.out.println(type + "Arrived");
