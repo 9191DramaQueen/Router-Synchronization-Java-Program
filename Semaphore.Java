@@ -7,7 +7,7 @@ class LabSemaphore{
 	protected LabSemaphore(int initial) { 
 		value = initial ; 
 	}
-	public synchronized void P() {
+	public synchronized void Lock() {
 		value-- ;
 		if ( value < 0)
 			try { 
@@ -16,7 +16,7 @@ class LabSemaphore{
 				
 			}
 	}
-	public synchronized void V() {
+	public synchronized void Release() {
 		value++ ; 
 		if (value <= 0) 
 			notify() ;
