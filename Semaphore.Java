@@ -1,10 +1,10 @@
 
-class semaphore {
+class LabSemaphore{
 	protected int value = 0 ;
-	protected semaphore() {
+	protected LabSemaphore() {
 			value = 0 ;
 	}
-	protected semaphore(int initial) { 
+	protected LabSemaphore(int initial) { 
 		value = initial ; 
 	}
 	public synchronized void P() {

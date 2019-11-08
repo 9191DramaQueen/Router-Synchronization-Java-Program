@@ -1,4 +1,3 @@
-import java.util.concurrent.Semaphore;
 
 class Device extends Thread{
 	enum DeviceType {
@@ -6,7 +5,7 @@ class Device extends Thread{
     };
 	String name;
 	DeviceType type;
-	Semaphore semaphore;
+	LabSemaphore semaphore;
 	protected Device(String name, String deviceType, Semaphore semaphore) { 
 		this.name = name;
 		this.semaphore = semaphore;
