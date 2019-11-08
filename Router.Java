@@ -1,54 +1,45 @@
-import java.util.Vector;
-
-class Router{ 
-	private static Vector<Device> listOfConnections;
-	//private Device currentDevice;
-	//private LabSemaphore sema;
-	
-	public Router() {
-		listOfConnections = new Vector<Device>();
-		//currentDevice = null;
-		//sema = null;
+class Router{
+	private static Device[] listOfConnections;
+	private Device device;
+	private LabSemaphore sema;
+	@SuppressWarnings("static-access")
+	public Router(String name , String type , LabSemaphore sema) {
+		device.name = name;
+		device.type = type;
+		this.sema = sema;
+		listOfConnections = new Device[this.sema.value];
+		for(int i = 0 ;  i < listOfConnections.length ; i++) {
+			listOfConnections[i] = null;
+		}
+		device.start();
 	}
-	/*public Router(Device device , LabSemaphore sema) {
-		//currentDevice = device;
-		//this.sema = sema;
-	}*/
-	public void occupy(Device device) {
-		//currentDevice = device;
-		listOfConnections.add(device);//currentDevice);
+	public Router(){
+		
 	}
-	public void release(Device device) {
-		//currentDevice = device;
-		listOfConnections.remove(device);//currentDevice);
+	public void occupy(Device dev) {
+		for(int i = 0 ; i < listOfConnections.length ; i++) {
+			if(listOfConnections[i].equals(null)) {
+				listOfConnections[i] = dev;
+				break;
+			}
+		}
+	}
+	public void release(Device dev) {
+		for(int i = 0 ; i < listOfConnections.length ; i++) {
+			if(listOfConnections[i].equals(dev)) {
+				listOfConnections[i] = null;
+				break;
+			}
+		}
 	}
 	@SuppressWarnings("static-access")
-	public void showRouterList() {
-		for(int i = 0 ; i < listOfConnections.size() ; i++) {
-			System.out.println("Device : " + listOfConnections.get(i).name + " Type : " + listOfConnections.get(i).type);
+	public void printList() {
+		for(int i = 0 ; i < listOfConnections.length ; i++) {
+			if(listOfConnections[i].equals(null))
+				System.out.println("Device Name :    , Type :    ");
+			else
+				System.out.println("Device Name : " + listOfConnections[i].name + " , Type : " + listOfConnections[i].type);
 		}
 	}
-	/*public synchronized void run() throws InterruptedException {
-		if(sema.value > 0) {
-			listOfConnections.add(currentDevice);
-			sema.Lock();
-			currentDevice.run();
-			int index = listOfConnections.indexOf(currentDevice);
-			listOfConnections.remove(index);
-			sema.Release();
-		}
-		else {
-			currentDevice.wait();
-		}
-	}
-	public Vector<Device> getListOfConnections(){
-		return listOfConnections;
-	}
-	public void showRouterList() {
-		for(int i = 0 ; i < listOfConnections.size() ; i++) {
-			System.out.println("Device : " + listOfConnections.get(i).name + " Type : " + listOfConnections.get(i).type);
-		}
-	}*/
 }
-	
 

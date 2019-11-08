@@ -6,7 +6,7 @@ class Device extends Thread{
 	String name;
 	static String type;
 	LabSemaphore semaphore;
-	private static Router router = new Router();
+	private static Router router;
 	protected Device(String name, String deviceType, LabSemaphore semaphore) { 
 		this.name = name;
 		this.semaphore = semaphore;
