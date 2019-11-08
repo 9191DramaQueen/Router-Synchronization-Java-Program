@@ -21,4 +21,7 @@ class LabSemaphore{
 		if (value <= 0) 
 			notify() ;
 		}
+	public boolean aPlaceExists() {
+		return value > 0;
+	}
 }
