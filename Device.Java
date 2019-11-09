@@ -1,3 +1,4 @@
+import java.util.Random;
 
 class Device extends Thread{
 	enum DeviceType {
@@ -5,15 +6,13 @@ class Device extends Thread{
     };
 	String name;
 	static String type;
-	LabSemaphore semaphore;
+	int connectionNum;
+	Random millis = new Random();
 	private static Router router;
-	int index;
 	@SuppressWarnings("static-access")
-	protected Device(String name, String deviceType, LabSemaphore semaphore , Router router) { 
+	protected Device(String name, String deviceType , Router router) { 
 		this.name = name;
-		this.semaphore = semaphore;
 		this.router = router;
-		index = 0;
 		deviceType = deviceType.toLowerCase();
 		switch(deviceType) {
 		case "mobile": case "tablet": case "pc": case "labtop":
@@ -25,33 +24,30 @@ class Device extends Thread{
 			
 	}
 	public void run() {
-		if(semaphore.aPlaceExists()) {
-			this.Connect();
-			
-		}else {
-			this.Waiting();
-		}
-		index = router.occupy(this);
+		connectionNum = router.occupy(this);
+		this.Connect();
 		this.PreformActivity();
 		this.Disconnect();
-		router.release(this , index);
 	}
 	public void Connect() {
-		System.out.println(type + "Arrived");
-		semaphore.Lock();
+		System.out.println("Connection " + connectionNum + ": "+ name + " (" + type + ") " + "Arrived");
 	}
 	public void Waiting() {
-		System.out.println(type + "Arrived and waiting");
-		semaphore.Lock();
+		System.out.println("Connection " + connectionNum + ": "+ name + " (" + type + ") "  + "Arrived and waiting");
 	}
 
 	public void Disconnect() {
-		semaphore.Release();
-		System.out.println(type + "Logged out");
+		router.release(this);
+		System.out.println("Connection " + connectionNum + ": "+ name + " (" + type + ") "  + "Logged out");
 	}
 	
 	public void PreformActivity() {
-		System.out.println(type + "Performs online activity");
+		try {
+			Device.sleep(millis.nextInt(10000));
+			System.out.println("Connection " + connectionNum + ": "+ name + " (" + type + ") "  + "Performs online activity");
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
