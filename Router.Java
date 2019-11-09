@@ -1,5 +1,5 @@
 class Router{
-	private static Device[] listOfConnections;
+	private Device[] listOfConnections;
 	private LabSemaphore semaphore;
 	public Router(int value) {
 		semaphore = new LabSemaphore(value);
@@ -15,6 +15,7 @@ class Router{
 				System.out.println("(" + device.name + ")" + " (" + device.type +")" + " arrived.");
 				listOfConnections[i] = device;
 				index = i;
+				semaphore.Lock();
 				return index;
 			}
 		}
@@ -31,8 +32,10 @@ class Router{
 	
 	public void release(Device device) {
 		for(int i = 0 ; i < listOfConnections.length ; i++) {
-			if(listOfConnections[i] == device)
+			if(listOfConnections[i] == device) {
 				listOfConnections[i] = null;
+				semaphore.Release();
+			}
 		}
 	}
 }
