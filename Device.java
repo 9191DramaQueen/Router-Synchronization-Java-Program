@@ -34,7 +34,7 @@ class Device extends Thread{
 	public void PreformActivity() {
 		try {
 			System.out.println("Connection " + (connectionNum+1) + ": "+ name + " (" + type + ") "  + "Performs online activity");
-			Device.sleep(millis.nextInt(10000));
+			Device.sleep(5000 + millis.nextInt(5000));
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
