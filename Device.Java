@@ -8,8 +8,7 @@ class Device extends Thread{
 	static String type;
 	int connectionNum;
 	Random millis = new Random();
-	private static Router router;
-	@SuppressWarnings("static-access")
+	private Router router;
 	protected Device(String name, String deviceType , Router router) { 
 		this.name = name;
 		this.router = router;
@@ -24,21 +23,15 @@ class Device extends Thread{
 			
 	}
 	public void run() {
-		connectionNum = router.occupy(this);
 		this.Connect();
 		this.PreformActivity();
 		this.Disconnect();
 	}
 	public void Connect() {
-		System.out.println("Connection " + connectionNum + ": "+ name + " (" + type + ") " + "Arrived");
+		connectionNum = router.occupy(this);
 	}
-	public void Waiting() {
-		System.out.println(name + " (" + type + ") "  + "Arrived and waiting"); //Sorry
-	}
-
 	public void Disconnect() {
 		router.release(this);
-		System.out.println("Connection " + connectionNum + ": "+ name + " (" + type + ") "  + "Logged out");
 	}
 	
 	public void PreformActivity() {
