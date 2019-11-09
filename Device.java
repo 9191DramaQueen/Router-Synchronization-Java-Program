@@ -1,11 +1,8 @@
 import java.util.Random;
 
 class Device extends Thread{
-	enum DeviceType {
-        MOBILE, TABLET, LABTOP, PC
-    };
 	String name;
-	static String type;
+	String type;
 	int connectionNum;
 	Random millis = new Random();
 	private Router router;
@@ -14,7 +11,7 @@ class Device extends Thread{
 		this.router = router;
 		deviceType = deviceType.toLowerCase();
 		switch(deviceType) {
-		case "mobile": case "tablet": case "pc": case "labtop":
+		case "mobile": case "tablet": case "pc": case "laptop":
 			type = deviceType.toUpperCase();
 			break;
 		default:
@@ -36,8 +33,8 @@ class Device extends Thread{
 	
 	public void PreformActivity() {
 		try {
+			System.out.println("Connection " + (connectionNum+1) + ": "+ name + " (" + type + ") "  + "Performs online activity");
 			Device.sleep(millis.nextInt(10000));
-			System.out.println("Connection " + connectionNum + ": "+ name + " (" + type + ") "  + "Performs online activity");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
