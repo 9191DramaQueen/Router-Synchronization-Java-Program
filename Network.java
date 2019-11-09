@@ -12,5 +12,6 @@ public class Network {
             Device device = new Device(name, type, router);
             device.start();
         }
+        sc.close();
     }
 }
