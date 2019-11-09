@@ -1,4 +1,3 @@
-import java.util.Random;
 
 class Device extends Thread{
 	enum DeviceType {
@@ -6,13 +5,15 @@ class Device extends Thread{
     };
 	String name;
 	static String type;
-	int connectionNum;
-	Random millis = new Random();
+	LabSemaphore semaphore;
 	private static Router router;
+	int index;
 	@SuppressWarnings("static-access")
-	protected Device(String name, String deviceType , Router router) { 
+	protected Device(String name, String deviceType, LabSemaphore semaphore , Router router) { 
 		this.name = name;
+		this.semaphore = semaphore;
 		this.router = router;
+		index = 0;
 		deviceType = deviceType.toLowerCase();
 		switch(deviceType) {
 		case "mobile": case "tablet": case "pc": case "labtop":
@@ -24,30 +25,33 @@ class Device extends Thread{
 			
 	}
 	public void run() {
-		connectionNum = router.occupy(this);
-		this.Connect();
+		if(semaphore.aPlaceExists()) {
+			this.Connect();
+			
+		}else {
+			this.Waiting();
+		}
+		index = router.occupy(this);
 		this.PreformActivity();
 		this.Disconnect();
+		router.release(this , index);
 	}
 	public void Connect() {
-		System.out.println("Connection " + connectionNum + ": "+ name + " (" + type + ") " + "Arrived");
+		System.out.println(type + "Arrived");
+		semaphore.Lock();
 	}
 	public void Waiting() {
-		System.out.println("Connection " + connectionNum + ": "+ name + " (" + type + ") "  + "Arrived and waiting");
+		System.out.println(type + "Arrived and waiting");
+		semaphore.Lock();
 	}
 
 	public void Disconnect() {
-		router.release(this);
-		System.out.println("Connection " + connectionNum + ": "+ name + " (" + type + ") "  + "Logged out");
+		semaphore.Release();
+		System.out.println(type + "Logged out");
 	}
 	
 	public void PreformActivity() {
-		try {
-			Device.sleep(millis.nextInt(10000));
-			System.out.println("Connection " + connectionNum + ": "+ name + " (" + type + ") "  + "Performs online activity");
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		System.out.println(type + "Performs online activity");
 	}
 	
 }
