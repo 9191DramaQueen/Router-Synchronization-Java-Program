@@ -33,7 +33,7 @@ class Device extends Thread{
 		System.out.println("Connection " + connectionNum + ": "+ name + " (" + type + ") " + "Arrived");
 	}
 	public void Waiting() {
-		System.out.println("Connection " + connectionNum + ": "+ name + " (" + type + ") "  + "Arrived and waiting");
+		System.out.println(name + " (" + type + ") "  + "Arrived and waiting"); //Sorry
 	}
 
 	public void Disconnect() {
