@@ -34,7 +34,7 @@ class Device extends Thread{
 		index = router.occupy(this);
 		this.PreformActivity();
 		this.Disconnect();
-		router.release(this , index);
+		router.release(this);
 	}
 	public void Connect() {
 		System.out.println(type + "Arrived");
