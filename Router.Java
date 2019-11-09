@@ -12,7 +12,7 @@ class Router{
 		int index = 0;
 		for(int i = 0 ; i < listOfConnections.length ; i++) {
 			if(listOfConnections[i] == null) {
-				System.out.println("(" + device.name + ")" + " (" + device.type +")" + " arrived.");
+				System.out.println("Connection " + (i + 1) + ": " + "(" + device.name + ")" + " (" + device.type +")" + " arrived.");
 				listOfConnections[i] = device;
 				index = i;
 				semaphore.Lock();
@@ -33,6 +33,7 @@ class Router{
 	public void release(Device device) {
 		for(int i = 0 ; i < listOfConnections.length ; i++) {
 			if(listOfConnections[i] == device) {
+				System.out.println("Connection " + (i + 1) + ": "+ device.name + " (" + device.type + ") "  + "Logged out");
 				listOfConnections[i] = null;
 				semaphore.Release();
 			}
